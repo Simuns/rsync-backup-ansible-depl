@@ -1,0 +1,8 @@
+- hosts: prepall 
+  gather_facts: true
+
+
+  #become: yes
+
+  roles:
+     - prepair-target
