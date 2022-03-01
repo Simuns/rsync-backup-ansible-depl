@@ -1,3 +1,4 @@
+---
 tags: rhel
 tasks:
   - name: install rsync
