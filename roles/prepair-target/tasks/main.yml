@@ -8,7 +8,7 @@
 - name: create backup service user 
   user:
     name: "{{ backup_user }}"
-    groups: sudo, root
+    groups: root
     state: present
     
 - name: Add sudo entry

@@ -13,7 +13,6 @@
   user:
     name: "{{ backup_user }}"
 #    password: "{{ backup_user_pass }}"
-    groups: sudo
     append: yes
     generate_ssh_key: yes
     ssh_key_type: rsa
