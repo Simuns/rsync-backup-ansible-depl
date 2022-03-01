@@ -1,2 +1,41 @@
 ---
 # tasks file for prepair-target
+- name: install rsync
+  package:
+    name: rsync
+    state: latest
+
+- name: create backup service user 
+  user:
+    name: "{{ backup_user }}"
+    groups: sudo, root
+    state: present
+    
+- name: Add sudo entry
+  lineinfile:
+    path: /etc/sudoers 
+    line: "{{ item.line }}"
+  with_items:
+      - { line: '{{ backup_user }} ALL=NOPASSWD:/usr/bin/rsync' }
+
+- name: Add .ssh directories
+  file:
+    path=/home/{{ backup_user }}/.ssh
+    state=directory
+    mode=0700
+    owner={{ backup_user }}
+    group={{ backup_user }}
+
+- name: check keys
+  debug: msg="{{ ssh_keys.stdout }}"
+  tags:
+    - ssh
+
+- name: deploy SSH key
+  authorized_key: user={{backup_user}} key="{{ item[0] }}"
+  delegate_to: "{{ item[1] }}"
+  with_nested:
+    - "{{ ssh_keys.stdout }}"
+    - "{{groups['controllers']}}"
+  tags:
+    - ssh

@@ -1,2 +1,3 @@
 ---
 # defaults file for repo-deploy
+service_user: service-backup-rsync

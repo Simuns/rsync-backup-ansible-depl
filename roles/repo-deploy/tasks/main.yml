@@ -1,2 +1,44 @@
 ---
 # tasks file for repo-deploy
+
+- name: install rsync
+  package:
+    name: "{{ item }}" rsync
+  with_items:
+    - rsync
+    - cron
+    state: latest
+
+- name: create backup service user 
+  user:
+    name: "{{ item.user }}"
+    password: "{{ item.password }}"
+    groups: sudo
+    generate_ssh_key: yes
+    ssh_key_type: rsa
+    ssh_key_bits: 4096
+    ssh_key_file: .ssh/id_rsa
+    state: present
+  with_items:
+      - { user: {{ backup_user }}, password: {{ backup_user_pass }} }    
+
+#- name: generate SSH key "{{ backup_user }}"
+#  openssh_keypair:
+#    path: "home/{{ backup_user }}/.ssh/{{id_rsa}}"
+#    type: rsa
+#    size: 4096
+#    state: present
+#    force: no
+
+- name: fetch public ssh key
+  shell: cat /home/{{ backup_user }}/ssh/id_rsa.pub
+  register: ssh_keys
+  tags:
+    - ssh
+
+- name: check keys
+  debug: msg="{{ ssh_keys.stdout }}"
+  tags:
+    - ssh
+
+  
