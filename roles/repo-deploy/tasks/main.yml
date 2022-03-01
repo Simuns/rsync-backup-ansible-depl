@@ -29,7 +29,7 @@
 #    force: no
 
 - name: fetch public ssh key
-  shell: cat /home/{{ backup_user }}/ssh/id_rsa.pub
+  shell: cat /home/{{ backup_user }}/.ssh/id_rsa.pub
   register: ssh_keys
   tags:
     - ssh
