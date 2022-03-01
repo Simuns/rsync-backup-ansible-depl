@@ -1,6 +1,6 @@
 ---
-#tags: rhel
-tasks:
+
+
 
 - name: Install the latest version of rsync and cronie
   dnf:

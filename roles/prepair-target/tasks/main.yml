@@ -19,6 +19,7 @@
   with_items:
       - { line: '{{ backup_user }} ALL=NOPASSWD:/usr/bin/rsync' }
   become: yes
+
 - name: Add .ssh directories
   file:
     path=/home/{{ backup_user }}/.ssh
