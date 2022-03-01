@@ -7,4 +7,4 @@ tasks:
     with_items:
       - rsync
       - cronie
-      state: latest
+    state: latest
