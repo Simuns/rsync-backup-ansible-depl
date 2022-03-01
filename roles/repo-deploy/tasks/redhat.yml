@@ -2,7 +2,7 @@ tags: rhel
 tasks:
   - name: install rsync
     package:
-      name: "{{ item }}" rsync
+      name: "{{ item }}"
     with_items:
       - rsync
       - cronie
