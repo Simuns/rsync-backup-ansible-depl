@@ -11,16 +11,15 @@
 
 - name: create backup service user 
   user:
-    name: "{{ item.user }}"
-    password: "{{ item.password }}"
+    name: "{{ backup_user }}"
+    password: "{{ backup_user_pass }}"
     groups: sudo
+    append: yes
     generate_ssh_key: yes
     ssh_key_type: rsa
     ssh_key_bits: 4096
     ssh_key_file: .ssh/id_rsa
     state: present
-  with_items:
-      - { user: {{ backup_user }}, password: {{ backup_user_pass }} }    
 
 #- name: generate SSH key "{{ backup_user }}"
 #  openssh_keypair:
@@ -41,4 +40,12 @@
   tags:
     - ssh
 
-  
+- include_tasks: debian.yml
+  when: ansible_os_family == "Debian"
+  tags:
+    - debian
+
+- include_tasks: redhat.yml
+  when: ansible_os_family == "RedHat"
+  tags:
+    - rhel

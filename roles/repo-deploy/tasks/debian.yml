@@ -1,0 +1,9 @@
+tags: debian
+tasks:
+  - name: install rsync
+    package:
+      name: "{{ item }}" rsync
+    with_items:
+      - rsync
+      - cron
+      state: latest

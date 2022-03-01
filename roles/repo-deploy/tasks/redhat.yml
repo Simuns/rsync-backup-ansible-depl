@@ -1,0 +1,9 @@
+tags: rhel
+tasks:
+  - name: install rsync
+    package:
+      name: "{{ item }}" rsync
+    with_items:
+      - rsync
+      - cronie
+      state: latest
