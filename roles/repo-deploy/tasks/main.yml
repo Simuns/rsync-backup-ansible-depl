@@ -12,7 +12,7 @@
 - name: create backup service user 
   user:
     name: "{{ backup_user }}"
-    password: "{{ backup_user_pass }}"
+#    password: "{{ backup_user_pass }}"
     groups: sudo
     append: yes
     generate_ssh_key: yes

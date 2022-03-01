@@ -1,3 +1,5 @@
 ---
 # defaults file for repo-deploy
-service_user: service-backup-rsync
+backup_user: service-backup-rsync
+
+backup_user_pass: Abc12345
