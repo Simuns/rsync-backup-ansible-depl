@@ -26,7 +26,7 @@ OLDBACKUP: date -d "2 days ago" +"%Y%m%d"
 pers_storage: /POINT/TO/PERSISTANT/STORAGE/backup-rsync
 
 # [backup_servers] service user
-backup_user_backupservers: service-backup-rsync
+backup_user_backupserver: service-backup-rsync
 
 #SSH port [backup_servers]
 sshport: 22

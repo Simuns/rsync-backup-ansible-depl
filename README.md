@@ -2,6 +2,17 @@
 
 ### Description
 ## Take/transfer backup via Rsync. Deployment via Ansible playbook
+#### The purpose of this playbook is automating the setup of rsync backup.
+You are required to define a backup host, combined with a list of 1 or more 
+target hosts. 
+#### The backup host will generate a repository to backup to, whilst also 
+giving you the ability to define backup options like
+* Backup frequency & Retention rate
+* Backup From/To
+* Backup service user
+
+#### Backup host will generate a user with an ssh key and populate target
+hosts with public ssh key on following service user.
 
 
 ---
