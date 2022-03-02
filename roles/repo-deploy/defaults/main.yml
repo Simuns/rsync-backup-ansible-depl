@@ -1,4 +1,0 @@
----
-# defaults file for repo-deploy
-backup_user: service-backup-rsync
-pers_storage: /mnt/rustdisk/backup-rsync
