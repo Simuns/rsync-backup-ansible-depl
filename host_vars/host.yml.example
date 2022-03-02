@@ -1,0 +1,13 @@
+---
+# defaults file for prepair-target
+
+
+#Persistant storage
+pers_storage: /POINT/TO/PERSISTANT/STORAGE/backup-rsync
+
+#target user
+backup_user: service-backup-rsync
+backup_user_pass: Abc12345
+
+#backup_server user
+#backup_user_backupservers: service-backup-rsync
