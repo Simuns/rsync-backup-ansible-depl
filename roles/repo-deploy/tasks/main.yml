@@ -1,15 +1,8 @@
 ---
-# tasks file for repo-deploy
 
-#- name: install rsync
-#  package:
-#    name: "{{ item }}" rsync
-#  with_items:
-#    - rsync
-#    - cron
-#    state: latest
 
-- name: create backup service user 
+
+- name: Create Backup Service user with strong encryption SSH Key 
   user:
     name: "{{ backup_user }}"
 #    password: "{{ backup_user_pass }}"
@@ -17,16 +10,10 @@
     generate_ssh_key: yes
     ssh_key_type: rsa
     ssh_key_bits: 4096
-    ssh_key_file: .ssh/id_rsa
+    ssh_key_file: .ssh/{id_rsa}
     state: present
 
-#- name: generate SSH key "{{ backup_user }}"
-#  openssh_keypair:
-#    path: "home/{{ backup_user }}/.ssh/{{id_rsa}}"
-#    type: rsa
-#    size: 4096
-#    state: present
-#    force: no
+
 
 - name: fetch public ssh key
   shell: cat /home/{{ backup_user }}/.ssh/id_rsa.pub
@@ -45,6 +32,51 @@
     state: directory
     mode: '0740'
 
+- name: Create Directory for following hosts {{ item }}
+  ansible.builtin.file:
+    path: "{{ pers_storage}}/{{ item }}"
+    state: directory
+    mode: '0740'
+  loop: "{{ query('inventory_hostnames', 'prepall') }}"
+
+
+- name: Insert backup script for each host in prepall group
+  ansible.builtin.template:
+    src: backup.sh
+    dest: "{{ pers_storage }}/{{ item }}"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: '0750'
+  loop: "{{ query('inventory_hostnames', 'prepall') }}"
+
+
+- name: Insert standard "excludes" for each host in prepall group
+  ansible.builtin.template:
+    src: example.excludes
+    dest: "{{ pers_storage }}/{{ item }}/{{ item }}.excludes"
+    owner: "{{ backup_user }}"
+    group: "{{ backup_user }}"
+    mode: '0750'
+  loop: "{{ query('inventory_hostnames', 'prepall') }}"
+
+
+- name: touch log files
+  ansible.builtin.file:
+    path: "{{ pers_storage }}/{{ item }}/BACKUP_success.log"
+    state: touch
+    mode: u+rw,g-wx,o-rwx
+  loop: "{{ query('inventory_hostnames', 'prepall') }}"
+
+- name: Creates a jobfile file under /etc/cron.d/backup-job GO AND EDIT TIMINGS !!!!
+  ansible.builtin.cron:
+    name: "backup job {{ item }}"
+    weekday: "2"
+    minute: "0"
+    hour: "12"
+    user: "{{ backup_user }}"
+    job: "{{ pers_storage }}/{{ item }}/backup.sh"
+    cron_file: backup-job
+  loop: "{{ query('inventory_hostnames', 'prepall') }}"
 
 - include_tasks: debian.yml
   when: ansible_os_family == "Debian"
@@ -55,3 +87,4 @@
   when: ansible_os_family == "RedHat"
   tags:
     - rhel
+

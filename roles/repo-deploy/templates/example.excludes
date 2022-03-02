@@ -1,0 +1,9 @@
+/dev
+/proc
+/sys
+/media
+/mnt
+/swapfile
+/tmp
+/run
+/lost+found
