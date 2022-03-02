@@ -1,7 +1,10 @@
 ---
 # tasks file for prepair-target
-
-
+  - name: install rsync
+    package:
+      name: rsync
+      state: latest
+  
 
   - include_tasks: backupservers.yml
     when: inventory_hostname == item
@@ -10,11 +13,8 @@
 
 
 
-  - name: install rsync
-    package:
-      name: rsync
-      state: latest
-  
+
+
   - name: create backup service user 
     user:
       name: "{{ backup_user }}"
