@@ -4,10 +4,14 @@
 
 #Persistant storage on [backup_server]
 pers_storage: /POINT/TO/PERSISTANT/STORAGE/backup-rsync
+#backup location on [targets]
+backup_location: /
+
 
 # [target] service user
 backup_user: service-backup-rsync
 backup_user_pass: Abc12345
+
 
 # [backup_servers] service user
 #backup_user_backupservers: service-backup-rsync
@@ -19,3 +23,6 @@ rsyncpath: /usr/bin/rsync
 #Define retention rate with following variable
 # Tip change to <"10 days ago"> for a 10 days retention rate
 OLDBACKUP: date -d "2 days ago" +"%Y%m%d"
+
+#SSH port -> backup_servers
+sshport: 22
