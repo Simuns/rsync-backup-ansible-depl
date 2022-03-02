@@ -35,7 +35,7 @@ LOG="$SHAREUSR/BACKUP_success.log"
 # you will be creating thousands of hardlinks on disk that will consume inodes.
 
 # Source and Destination
-SOURCE="$TGUSER@$TGHOST:{{ backup_location }}"
+SOURCE="$TGUSER@$TGHOST:"
 DESTINATION="$SHAREUSR/$TODAY/"
  
 # Keep database backups in a separate directory.
@@ -75,13 +75,15 @@ mkdir -p $SHAREUSR/$TODAY/db
 # Note the NOPASSWD option in the sudo configuration. For remote
 # authentication use a password-less SSH key only allowed read permissions by
 # the backup server's root user.
-rsync -zavx -e 'ssh -p{{ sshport }}' \
-	--rsync-path="$RSYNC" \
-        --exclude-from=$EXCLUDES \
-        --numeric-ids \
-        --delete -r \
-        --link-dest=../$YESTERDAY $SOURCE $DESTINATION
-
+for X in {{ backup_location }}
+do
+        rsync -zavx -e 'ssh -p{{ sshport }}' \
+        	--rsync-path="$RSYNC" \
+                --exclude-from=$EXCLUDES \
+                --numeric-ids \
+                --delete -r \
+                --link-dest=../$YESTERDAY $SOURCE$X $DESTINATION
+done
 # Backup all databases. I backup all databases into a single file. It might be
 # preferable to back up each database to a separate file. If you do that, I
 # suggest adding a configuration file that is looped over with a bash for()
