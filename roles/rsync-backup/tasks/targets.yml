@@ -23,27 +23,30 @@
       owner={{ backup_user }}
       group={{ backup_user }}
   
-#  - name: check keys
-#    debug: msg="{{ ssh_keys.stdout }}"
-#    tags:
-#      - ssh
-#  
-#  - name: deploy SSH key
-#    authorized_key: user={{backup_user}} key="{{ item[0] }}"
-#    delegate_to: "{{ item[1] }}"
-#    with_nested:
-#      - "{{ ssh_keys.stdout }}"
-#      - "{{groups['backup_user']}}"
-#    tags:
-#      - ssh
 
-  - name: Copy pub key of backup server -> target authorized_keys
+
+  - name: Copy pub key of backup servers -> target host .ssh folder
     copy:
-      src: "buffer/{{ backup_user_backupserver }}-id_rsa.pub"
-      dest: "/home/{{ backup_user }}/.ssh/authorized_keys"  
+      src: "buffer/{{ item }}.pub"
+      dest: "/home/{{ backup_user }}/.ssh/{{ item }}.pub"  
       owner: "{{ backup_user }}"
       group: "{{ backup_user }}"
       mode: "u+rw,g-r,o-r"
+    loop: "{{ query('inventory_hostnames', 'backup_servers') }}"
+
+  - name: touch authorized keys files
+    ansible.builtin.file:
+      path: "/home/{{ backup_user }}/.ssh/authorized_keys"
+      state: touch
+      owner: "{{ backup_user }}"
+      group: "{{ backup_user }}"      
+      mode: "u+rw,g-r,o-r"
+
+
+  - name: "Add backup server keys to authorized hosts"
+    shell: 'cat /home/{{ backup_user }}/.ssh/{{ item }}.pub >> /home/{{ backup_user }}/.ssh/authorized_keys'
+    loop: "{{ query('inventory_hostnames', 'backup_servers') }}"
+
 
   
   - name: install rsync
