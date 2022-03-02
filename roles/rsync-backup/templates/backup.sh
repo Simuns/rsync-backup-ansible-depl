@@ -35,7 +35,7 @@ LOG="$SHAREUSR/BACKUP_success.log"
 # you will be creating thousands of hardlinks on disk that will consume inodes.
 
 # Source and Destination
-SOURCE="$TGUSER@$TGHOST:/"
+SOURCE="$TGUSER@$TGHOST:{{ backup_location }}"
 DESTINATION="$SHAREUSR/$TODAY/"
  
 # Keep database backups in a separate directory.
@@ -75,7 +75,7 @@ mkdir -p $SHAREUSR/$TODAY/db
 # Note the NOPASSWD option in the sudo configuration. For remote
 # authentication use a password-less SSH key only allowed read permissions by
 # the backup server's root user.
-rsync -zavx -e 'ssh -p22' \
+rsync -zavx -e 'ssh -p{{ sshport }}' \
 	--rsync-path="$RSYNC" \
         --exclude-from=$EXCLUDES \
         --numeric-ids \
