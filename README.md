@@ -3,10 +3,15 @@
 ## Take/transfer backup via Rsync. Deployment via Ansible playbook
 ---
 
-* Make sure inventory file is populated with hosts. atleast one `[backup_servers]` host
-* Populate [targets] with hosts that should get backed up. If backup_server host should be backed up. Include it here as well
+## Make sure inventory file is populated with hosts. 
+---
+* atleast one `[backup_servers]` host
+* Populate `[targets]` with hosts that should get backed up. 
+##### NOTE: If `[backup_servers]` host/s should be backed up. Include it here as well
 
-### If sudo authentication differs from target to target, use following syntax in your inventory.ini file
+## If sudo authentication differs from target to target
+---
+##### use following syntax in your inventory.ini file
 ```
 host.com  ansible_ssh_user=<user> ansible_become_pass=<sudo-password-for-user>'
 ```
