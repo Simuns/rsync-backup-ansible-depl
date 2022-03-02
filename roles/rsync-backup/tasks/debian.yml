@@ -1,0 +1,9 @@
+---
+
+
+- name: Install the latest version of rsync and cron
+  apt:
+    name:
+      - rsync
+      - cron
+    state: latest

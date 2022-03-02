@@ -1,0 +1,10 @@
+---
+
+
+
+- name: Install the latest version of rsync and cronie
+  dnf:
+    name:
+      - rsync
+      - cronie
+    state: latest
