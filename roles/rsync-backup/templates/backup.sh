@@ -11,12 +11,12 @@
  
 TODAY=`date +"%Y%m%d"`
 YESTERDAY=`date -d "1 day ago" +"%Y%m%d"`
-OLDBACKUP=`date -d "2 days ago" +"%Y%m%d"`
+OLDBACKUP=`{{ OLDBACKUP }}`
 #Change this to hostname of target device
 TGHOST="{{ item }}"
 TGUSER="{{ backup_user }}"
 # Set the path to rsync on the remote server so it runs with sudo.
-RSYNC="/usr/bin/sudo /usr/bin/rsync"
+RSYNC="{{ sudopath }} {{ rsyncpath }}"
 
 # Set the folderpath on the QNAP
 # Dont't forget to mkdir $SHAREUSR
