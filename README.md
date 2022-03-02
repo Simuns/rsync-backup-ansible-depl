@@ -36,7 +36,7 @@ host.com  ansible_ssh_user=<user> ansible_become_pass=<sudo-password-for-user>'
 
 ---
 ## To edit defaults
-### Defaults will be overwritten by host_vars if file is present for host
+### Defaults will be overwritten by host_vars if file is pressent for host
 ##### `cd rsync-backup-ansible-depl/roles/rsync-backup/defaults/`
 ##### `cp main.yml.example main.yml`
 ##### `vim main.yml`
