@@ -27,7 +27,7 @@ host.com  ansible_ssh_user=<user> ansible_become_pass=<sudo-password-for-user>'
 ---
 ## Using host vars instead of single defaults file
 ##### `cd rsync-backup-ansible-depl/host_vars/`
-##### `cp hozt.yml.example <host.com>.yml`
+##### `cp host.yml.example <host.com>.yml`
 ##### `vim <host.com>.yml`
 ---
 ## To run playbook
