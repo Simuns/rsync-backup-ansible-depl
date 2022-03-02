@@ -2,7 +2,7 @@
  #somthing
   - name: Create Backup Service user with strong encryption SSH Key 
     user:
-      name: "{{ backup_user }}"
+      name: "{{ backup_user_backupserver }}"
   #    password: "{{ backup_user_pass }}"
       append: yes
       generate_ssh_key: yes
@@ -13,10 +13,10 @@
  
   - include_tasks: backupservers.yml
     when: inventory_hostname == item
-    with_items: "{{ backup_servers }}"
+    with_items: "{{ backup_user_backupserver }}"
  
   - name: fetch public ssh key
-    shell: cat /home/{{ backup_user }}/.ssh/id_rsa.pub
+    shell: cat /home/{{ backup_user_backupserver }}/.ssh/id_rsa.pub
     register: ssh_keys
     tags:
       - ssh
@@ -44,8 +44,8 @@
     ansible.builtin.template:
       src: backup.sh
       dest: "{{ pers_storage }}/{{ item }}"
-      owner: "{{ backup_user }}"
-      group: "{{ backup_user }}"
+      owner: "{{ backup_user_backupserver }}"
+      group: "{{ backup_user_backupserver }}"
       mode: '0750'
     loop: "{{ query('inventory_hostnames', 'prepall') }}"
   
@@ -54,10 +54,10 @@
     ansible.builtin.template:
       src: example.excludes
       dest: "{{ pers_storage }}/{{ item }}/{{ item }}.excludes"
-      owner: "{{ backup_user }}"
-      group: "{{ backup_user }}"
+      owner: "{{ backup_user_backupserver }}"
+      group: "{{ backup_user_backupserver }}"
       mode: '0750'
-    loop: "{{ query('inventory_hostnames', 'prepall') }}"
+    loop: "{{ query('inventory_hostnames', 'targets') }}"
   
   
   - name: touch log files
@@ -65,7 +65,7 @@
       path: "{{ pers_storage }}/{{ item }}/BACKUP_success.log"
       state: touch
       mode: u+rw,g-wx,o-rwx
-    loop: "{{ query('inventory_hostnames', 'prepall') }}"
+    loop: "{{ query('inventory_hostnames', 'targets') }}"
   
   - name: Creates a jobfile file under /etc/cron.d/backup-job GO AND EDIT TIMINGS !!!!
     ansible.builtin.cron:
@@ -73,11 +73,13 @@
       weekday: "2"
       minute: "0"
       hour: "12"
-      user: "{{ backup_user }}"
+      user: "{{ backup_user_backupserver }}"
       job: "{{ pers_storage }}/{{ item }}/backup.sh"
       cron_file: backup-job
-    loop: "{{ query('inventory_hostnames', 'prepall') }}"
+    loop: "{{ query('inventory_hostnames', 'targets') }}"
   
+#VARIATION TO DIFFERENT FLAVORS
+
   - include_tasks: debian.yml
     when: ansible_os_family == "Debian"
     tags:
