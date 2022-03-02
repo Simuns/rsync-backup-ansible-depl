@@ -23,19 +23,28 @@
       owner={{ backup_user }}
       group={{ backup_user }}
   
-  - name: check keys
-    debug: msg="{{ ssh_keys.stdout }}"
-    tags:
-      - ssh
-  
-  - name: deploy SSH key
-    authorized_key: user={{backup_user}} key="{{ item[0] }}"
-    delegate_to: "{{ item[1] }}"
-    with_nested:
-      - "{{ ssh_keys.stdout }}"
-      - "{{groups['backup_user']}}"
-    tags:
-      - ssh
+#  - name: check keys
+#    debug: msg="{{ ssh_keys.stdout }}"
+#    tags:
+#      - ssh
+#  
+#  - name: deploy SSH key
+#    authorized_key: user={{backup_user}} key="{{ item[0] }}"
+#    delegate_to: "{{ item[1] }}"
+#    with_nested:
+#      - "{{ ssh_keys.stdout }}"
+#      - "{{groups['backup_user']}}"
+#    tags:
+#      - ssh
+
+  - name: Copy pub key of backup server -> target authorized_keys
+    copy:
+      src: "buffer/{{ backup_user_backupserver }}-id_rsa.pub"
+      dest: "/home/{{ backup_user }}/.ssh/authorized_keys"  
+      owner: "{{ backup_user }}"
+      group: "{{ backup_user }}"
+      mode: "u+rw,g-r,o-r"
+
   
   - name: install rsync
     package:
