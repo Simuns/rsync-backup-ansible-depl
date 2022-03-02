@@ -1,8 +1,0 @@
-- hosts: backup_servers 
-  gather_facts: true
-
-
-  #become: yes
-
-  roles:
-     - repo-deploy
