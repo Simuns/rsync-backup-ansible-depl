@@ -39,6 +39,13 @@
   tags:
     - ssh
 
+- name: create dir for persistant volume if it does not exist
+  ansible.builtin.file:
+    path: "{{ pers_storage }}"
+    state: directory
+    mode: '0740'
+
+
 - include_tasks: debian.yml
   when: ansible_os_family == "Debian"
   tags:

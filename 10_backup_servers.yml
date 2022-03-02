@@ -1,4 +1,4 @@
-- hosts: prepall 
+- hosts: backup_servers 
   gather_facts: true
 
 

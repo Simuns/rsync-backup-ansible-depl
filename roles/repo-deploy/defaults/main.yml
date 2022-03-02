@@ -1,5 +1,4 @@
 ---
 # defaults file for repo-deploy
 backup_user: service-backup-rsync
-
-backup_user_pass: Abc12345
+pers_storage: /mnt/rustdisk/backup-rsync
