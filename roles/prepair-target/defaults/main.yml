@@ -1,2 +1,9 @@
 ---
 # defaults file for prepair-target
+
+
+#Persistant storage
+pers_storage: /mnt/rustdisk/backup-rsync
+#Service user username
+backup_user: service-backup-rsync
+backup_user_pass: Abc12345

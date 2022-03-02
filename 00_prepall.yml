@@ -1,10 +1,11 @@
-- hosts: prepall 
+- hosts: backup_servers, targets 
   gather_facts: true
 
 
   #become: yes
 
-  roles:
-     - prepair-target 
-     - repo-deploy
-
+  roles: 
+#     - repo-deploy
+     - prepair-target
+     
+  tasks:
