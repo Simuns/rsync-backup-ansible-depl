@@ -1,20 +1,13 @@
 ---
 # tasks file for prepair-target
 
+
+
   - include_tasks: backupservers.yml
     when: inventory_hostname == item
     with_items: "{{ query('inventory_hostnames', 'backup_servers') }}"
 
-  - name: Create Backup Service user with strong encryption SSH Key 
-    user:
-      name: "{{ backup_user }}"
-  #    password: "{{ backup_user_pass }}"
-      append: yes
-      generate_ssh_key: yes
-      ssh_key_type: rsa
-      ssh_key_bits: 4096
-      ssh_key_file: .ssh/{id_rsa}
-      state: present
+
 
 
   - name: install rsync
