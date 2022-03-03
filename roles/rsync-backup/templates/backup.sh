@@ -8,8 +8,7 @@
 # 3. $SOURCE & $DESTINATION
 # 4. user@yourserver.se for the mysqldump 
 # 5. --password=SUPERSECRET
-###Crontab
-# 0 12 * * 2 service-backup-rsync /mnt/rustdisk/backup-rsync//simunz.com/backup.sh
+
 TODAY=`date +"%Y%m%d"`
 YESTERDAY=`date -d "1 day ago" +"%Y%m%d"`
 OLDBACKUP=`{{ OLDBACKUP }}`
