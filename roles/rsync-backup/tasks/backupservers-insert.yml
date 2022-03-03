@@ -18,3 +18,10 @@
     regexp: '^SHAREUSR='
     line: 'SHAREUSR={{ pers_storage }}/$TGHOST/'
   loop: "{{ query('inventory_hostnames', 'targets') }}"
+
+- name: update /etc/cron.d/backup-rsync
+  lineinfile:
+    path: /etc/cron.d/backup-rsync
+    regexp: "^{{ lookup('file', '/etc/cron.d/backup-rsync') }}"
+    line: "{{ lookup('file', '/etc/cron.d/{{ item }}.freq') }}{{ lookup('file', '/etc/cron.d/backup-rsync') }}"
+  loop: "{{ query('inventory_hostnames', 'targets') }}"
