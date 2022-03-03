@@ -22,7 +22,22 @@
       mode=0700
       owner={{ backup_user }}
       group={{ backup_user }}
-  
+
+  - name: Copy personalized backup script.
+    ansible.builtin.template:
+      src: backup.sh
+      dest: "/home/{{ backup_user }}/{{ inventory_hostname }}-backup.sh"  
+      owner: "{{ backup_user }}"
+      group: "{{ backup_user }}"
+      mode: "0750"
+
+
+
+  - name: move personalized-backup.sh to buffer
+    fetch: 
+      src: "/home/{{ backup_user }}/{{ inventory_hostname }}-backup.sh"
+      dest: "buffer/{{ inventory_hostname }}-backup.sh"
+      flat: yes
 
 
   - name: Copy pub key of backup servers -> target host .ssh folder
@@ -46,6 +61,7 @@
   - name: "Add backup server keys to authorized hosts"
     shell: 'cat /home/{{ backup_user }}/.ssh/{{ item }}.pub >> /home/{{ backup_user }}/.ssh/authorized_keys'
     loop: "{{ query('inventory_hostnames', 'backup_servers') }}"
+
 
 
   

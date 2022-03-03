@@ -3,10 +3,14 @@
 
 
 
-  - include_tasks: backupservers.yml
+#  - include_tasks: backupservers.yml
+#    when: inventory_hostname == item
+#    with_items: "{{ query('inventory_hostnames', 'backup_servers') }}"
+#
+#  - include_tasks: targets.yml
+#    when: inventory_hostname == item
+#    with_items: "{{ query('inventory_hostnames', 'targets') }}"
+#
+  - include_tasks: backupservers-insert.yml
     when: inventory_hostname == item
     with_items: "{{ query('inventory_hostnames', 'backup_servers') }}"
-
-  - include_tasks: targets.yml
-    when: inventory_hostname == item
-    with_items: "{{ query('inventory_hostnames', 'targets') }}"

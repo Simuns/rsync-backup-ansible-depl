@@ -1,0 +1,20 @@
+---
+
+
+#
+- name: Copy personalized backup to backupserver.
+  copy:
+    src: "buffer/{{ item }}-backup.sh"
+    dest: "{{ pers_storage }}/{{ item }}/{{ item }}-backup.sh"  
+    owner: "{{ backup_user_backupserver }}"
+    group: "{{ backup_user_backupserver }}"
+    mode: "u+rwx,g-xr,o-r"
+  loop: "{{ query('inventory_hostnames', 'targets') }}"
+
+
+- name: Point backup script to persistant storage repo
+  ansible.builtin.lineinfile:
+    path: "{{ pers_storage }}/{{ item }}/{{ item }}-backup.sh"
+    regexp: '^SHAREUSR='
+    line: 'SHAREUSR={{ pers_storage }}/$TGHOST/'
+  loop: "{{ query('inventory_hostnames', 'targets') }}"

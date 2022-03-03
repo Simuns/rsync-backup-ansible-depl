@@ -1,6 +1,7 @@
 ---
  
 
+
  #somthing
   - name: Create Backup Service user with strong encryption SSH Key 
     user:
@@ -11,7 +12,6 @@
       ssh_key_bits: 4096
       ssh_key_file: .ssh/id_rsa
       state: present
-
 
   - name: Fetch the keyfile from one server to another
     fetch: 
@@ -33,18 +33,7 @@
       group: "{{ backup_user_backupserver }}"
       mode: '0740'
     loop: "{{ query('inventory_hostnames', 'prepall') }}"
-  
-  
-  - name: Insert backup script for each host in prepall group
-    ansible.builtin.template:
-      src: backup.sh
-      dest: "{{ pers_storage }}/{{ item }}"
-      owner: "{{ backup_user_backupserver }}"
-      group: "{{ backup_user_backupserver }}"
-      mode: '0750'
-    loop: "{{ query('inventory_hostnames', 'prepall') }}"
-  
-  
+
   - name: Insert standard "excludes" for each host in prepall group
     ansible.builtin.template:
       src: example.excludes
@@ -82,6 +71,7 @@
       owner: "{{ backup_user_backupserver }}"
       group: "{{ backup_user_backupserver }}"
       mode: '0644'
+
 
 
 

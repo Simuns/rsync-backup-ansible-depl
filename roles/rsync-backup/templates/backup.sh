@@ -20,7 +20,7 @@ RSYNC="{{ sudopath }} {{ rsyncpath }}"
 
 # Set the folderpath on the QNAP
 # Dont't forget to mkdir $SHAREUSR
-SHAREUSR="{{ pers_storage }}/$TGHOST/"
+SHAREUSR=
  
 # This is a list of files to ignore from backups.
 # Dont't forget to touch $EXCLUDES
