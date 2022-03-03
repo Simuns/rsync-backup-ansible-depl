@@ -61,12 +61,7 @@
       group: "{{ backup_user_backupserver }}"
       mode: u+rw,g-rw,o-r
 
-  - name: update /etc/cron.d/backup-rsync
-    lineinfile:
-      path: /etc/cron.d/backup-rsync
-      regexp: "^{{ lookup('file', '/etc/cron.d/backup-rsync') }}"
-      line: "{{ lookup('file', 'etc/cron.d/{{ item }}.freq') }}{{ lookup('file', '/etc/cron.d/backup-rsync') }}"
-    loop: "{{ query('inventory_hostnames', 'targets') }}"
+
 
 #  - name: Creates a jobfile file under /etc/cron.d/backup-job GO AND EDIT TIMINGS !!!!
 #    ansible.builtin.cron:

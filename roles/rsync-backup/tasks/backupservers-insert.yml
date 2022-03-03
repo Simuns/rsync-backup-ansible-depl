@@ -19,9 +19,17 @@
     line: 'SHAREUSR={{ pers_storage }}/$TGHOST/'
   loop: "{{ query('inventory_hostnames', 'targets') }}"
 
-- name: update /etc/cron.d/backup-rsync
-  lineinfile:
-    path: /etc/cron.d/backup-rsync
-    regexp: "^{{ lookup('file', '/etc/cron.d/backup-rsync') }}"
-    line: "{{ lookup('file', '/etc/cron.d/{{ item }}.freq') }}{{ lookup('file', '/etc/cron.d/backup-rsync') }}"
+
+- name: Copy personalized backup freq to backupserver.
+  copy:
+    src: "buffer/{{ item }}.freq"
+    dest: "{{ pers_storage }}/{{ item }}/{{ item }}.freq"  
+    owner: "{{ backup_user_backupserver }}"
+    group: "{{ backup_user_backupserver }}"
+    mode: "u+rwx,g-rw,o-r"
+  loop: "{{ query('inventory_hostnames', 'targets') }}"
+
+
+- name: "Assemble Custom cronjob script with custom backup frequency"
+  shell: awk '{print $0, "{{ backup_user_backupserver }} {{ pers_storage }}/{{ item }}/{{ item }}-backup.sh"}' {{ pers_storage }}/{{ item }}/{{ item }}.freq >> /etc/cron.d/backup-rsync
   loop: "{{ query('inventory_hostnames', 'targets') }}"

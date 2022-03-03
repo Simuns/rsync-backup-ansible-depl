@@ -6,6 +6,11 @@
 #backup location on [targets]
 backup_location: /
 
+
+#backup frequency in crond format
+backupfreq: 0 12 * * 2
+
+
 # [targets] service user
 backup_user: service-backup-rsync
 backup_user_pass: Abc12345

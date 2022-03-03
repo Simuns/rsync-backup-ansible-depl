@@ -31,7 +31,13 @@
       group: "{{ backup_user }}"
       mode: "0750"
 
-
+  - name: Copy personalized backup freq file.
+    ansible.builtin.template:
+      src: crond.freq
+      dest: "/home/{{ backup_user }}/{{ inventory_hostname }}.freq"  
+      owner: "{{ backup_user }}"
+      group: "{{ backup_user }}"
+      mode: "0750"
 
   - name: move personalized-backup.sh to buffer
     fetch: 
@@ -39,6 +45,11 @@
       dest: "buffer/{{ inventory_hostname }}-backup.sh"
       flat: yes
 
+  - name: move personalized backup freq file to buffer
+    fetch: 
+      src: "/home/{{ backup_user }}/{{ inventory_hostname }}.freq"
+      dest: "buffer/{{ inventory_hostname }}.freq"
+      flat: yes
 
   - name: Copy pub key of backup servers -> target host .ssh folder
     copy:
