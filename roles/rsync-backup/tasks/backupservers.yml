@@ -62,18 +62,6 @@
       mode: u+rw,g-rw,o-r
 
 
-
-#  - name: Creates a jobfile file under /etc/cron.d/backup-job GO AND EDIT TIMINGS !!!!
-#    ansible.builtin.cron:
-#      name: "backup job {{ item }}"
-#      weekday: "2"
-#      minute: "0"
-#      hour: "12"
-#      user: "{{ backup_user_backupserver }}"
-#      job: "{{ pers_storage }}/{{ item }}/backup.sh"
-#      cron_file: backup-job
-#    loop: "{{ query('inventory_hostnames', 'targets') }}"  
-
   - name: Turn off "SSH Hostchecking for targets
     ansible.builtin.template:
       src: config
