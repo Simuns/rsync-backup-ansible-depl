@@ -8,7 +8,6 @@ backup_location: /
 
 # [targets] service user
 backup_user: service-backup-rsync
-backup_user_pass: Abc12345
 
 #Rsync script variables
 sudopath: /usr/bin/sudo
