@@ -39,8 +39,8 @@ SOURCE="$TGUSER@$TGHOST:"
 DESTINATION="$SHAREUSR/$TODAY/"
  
 # Keep database backups in a separate directory.
-mkdir -p $SHAREUSR/$TODAY/db
-
+mkdir -p $SHAREUSR/$TODAY/
+touch $DESTINATION/transfer.log
 # This command rsync's files from the remote server to the local server.
 # Flags:
 #   -z enables gzip compression of the transport stream.
@@ -82,6 +82,7 @@ do
                 --exclude-from=$EXCLUDES \
                 --numeric-ids \
                 --delete -r \
+                --log-file=$DESTINATION/transfer.log \
                 --link-dest=../$YESTERDAY $SOURCE$X $DESTINATION
 done
 # Backup all databases. I backup all databases into a single file. It might be
