@@ -7,3 +7,9 @@
       - rsync
       - cron
     state: latest
+
+- name: make sure crond is enabled and started
+  ansible.builtin.service:
+    name: cron
+    state: started
+    enabled: yes
