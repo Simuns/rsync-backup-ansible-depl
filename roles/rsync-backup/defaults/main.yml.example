@@ -3,13 +3,19 @@
 
 
 ###[targets] vars
+
 #backup location on [targets]
+# backup location clould be multiple targets like: "/etc/nginx /home/myuser"
 backup_location: /
 
-# [targets] service user
+#backup frequency in crond format
+backupfreq: 0 12 * * 2
+
+# [targets] service username
 backup_user: service-backup-rsync
 
 #Rsync script variables
+# path might differ from flavor to flavor. Edit these if that is the case.
 sudopath: /usr/bin/sudo
 rsyncpath: /usr/bin/rsync
 
@@ -22,9 +28,11 @@ OLDBACKUP: date -d "2 days ago" +"%Y%m%d"
 ###[backup_servers] vars
 
 #Persistant storage on [backup_server]
-pers_storage: /POINT/TO/PERSISTANT/STORAGE/backup-rsync
+# where backup will be stored. Possible to have 
+#different pers_storage for multiple backup_Servers
+pers_storage: /PATH/TO/BACKUPSTORAGE
 
-# [backup_servers] service user
+# [backup_servers] service username 
 backup_user_backupserver: service-backup-rsync
 
 #SSH port [backup_servers]
