@@ -1,0 +1,6 @@
+defaults/main.yml
+roles/rsync-backup/defaults/main.yml
+roles/rsync-backup/defaults/*.yml
+group_vars/*.yml
+host_vars/*.yml
+buffer
