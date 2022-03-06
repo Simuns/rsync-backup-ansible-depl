@@ -55,3 +55,6 @@ If you have differing backup repo's for each backup servers, those can be pointe
 
 ##### `ansible-playbook -i inv_<your.domain>.ini 00_rsync-backup.yml -become --ask-become-pass`
 ###### `--ask-become-pass` is only nessasary when sudo auth not specified in ini
+
+
+## Author: Símun Højgaard Lutzen | simunhojgaard@gmail.com
